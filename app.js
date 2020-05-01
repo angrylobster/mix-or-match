@@ -40,10 +40,8 @@ class MixOrMatch {
         this.timer = document.getElementById('time-remaining');
         this.ticker = document.getElementById('flips');
         this.audioController = new AudioController();
+        this.totalClicks = 0;
     }
-    // startMusic() {
-    //     this.audioController.startMusic();
-    // }
     startGame() {
         this.cardToCheck = null;
         this.totalClicks = 0;
@@ -59,56 +57,37 @@ class MixOrMatch {
             card.classList.add('visible');
          }
     }
-
-    // shuffleCards() {
-    //     // for(let i = this.cardsArray.length -1; i =0; 1--) {
-
-    //     }
-    // }
-
     canFlipCard(card) {
         return true;
-        //return (!this.busy && !this.matchedCards.includes(card) && card !== this.cardToCheck)
     }
 }
+
+const game = new MixOrMatch(100);
 
 function ready() {
     let overlays = Array.from(document.getElementsByClassName('overlay-text'));
     let cards = Array.from(document.getElementsByClassName('card'));
-    let game = new MixOrMatch(100, cards);
 
     overlays.forEach(overlay => {
         overlay.addEventListener('click', () => {
             overlay.classList.remove('visible');
-            game.startMusic();
+            // game.startMusic();
             game.startGame();
         });
     });
 
-    for (const card of cards) {
-        console.log(game)
-        card.addEventListener('click', () => {
-            console.log(game)
-            game.flipcard(card);
-        });
+    cards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            console.log(e.target);
+            game.flipCard(e.target);
+        })
+    })
 
-        }
-      
-    // cards.forEach(card => {
-    //     const gameInstance = game
-    //     card.addEventListener('click', () => {
-    //         gameInstance.flipcard(card);
-            
-    //     });
-    // });
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', ready());
-} else  {
+window.onload = () => {
+    console.log('DOM loaded');
     ready();
 }
-
-//let AudioController = new AudioController(); 
 
 
